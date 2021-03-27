@@ -6,6 +6,7 @@
 
 
 #include "CourseWork/Services/Email/EmailService.h"
+#include "CourseWork/Settings/CWGameMode.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -66,8 +67,7 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	const TTuple<TEnumAsByte<ELoginData>, FLoginData> ComputerPass(LD_Computer, ComputerLoginData);
 	LoginsData.Add(ComputerPass);
 
-	AEmailService* EmailService = Cast<AEmailService>(
-		UGameplayStatics::GetActorOfClass(GetWorld(), AEmailService::StaticClass()));
+	AEmailService* EmailService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetEmailService();
 	
 	if(EmailService)
 	{
@@ -80,8 +80,6 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 		
 		EmailService->AddNewEmail(this, MailLoginData.Login, MailLoginData.Password);
 	}
-
-	
 }
 
 FDateTime UBasePerson::GetRandomBirthDate(const TEnumAsByte<EPosition> Post)
