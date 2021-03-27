@@ -2,6 +2,7 @@
 
 
 #include "BaseComputer.h"
+#include "CourseWork/WorkPlace/Persons/Person.h"
 
 ABaseComputer::ABaseComputer()
 {
@@ -22,25 +23,13 @@ void ABaseComputer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	
+	SetOwnerPerson(NewObject<UBasePerson>(this));
 }
 
-void ABaseComputer::SetFileSystemAsset(const TSubclassOf<UFileSystemAsset> NewFileSystemAsset)
-{
-	FileSystemAsset = NewFileSystemAsset;
-	
-	if(!FileSystemAsset) return;
-	
-	UFileSystemAsset* NewFileSystem = NewObject<UFileSystemAsset>(this, FileSystemAsset);
-	RootFileCatalogue = NewFileSystem->GenerateFileSystem();
-}
-
-void ABaseComputer::SetOwnerPerson(const FPerson NewOwnerPerson)
+void ABaseComputer::SetOwnerPerson(UBasePerson* NewOwnerPerson)
 {
 	OwnerPerson = NewOwnerPerson;
-
-	Login = FText::FromName(OwnerPerson.FirstName);
-	Password = OwnerPerson.UsedPasswords[0];
+	OwnerPerson->InitPerson(Position);
 	
 	if(!FileSystemAsset) return;
 	
