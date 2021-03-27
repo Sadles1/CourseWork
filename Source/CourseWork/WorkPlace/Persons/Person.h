@@ -47,11 +47,11 @@ class COURSEWORK_API UBasePerson : public UObject
 	GENERATED_BODY()
 	
 public:
+	void InitPerson(TEnumAsByte<EPosition> Post);
+
+	
 	UFUNCTION(BlueprintCallable)
 	FLoginData GetLoginData(TEnumAsByte<ELoginData> LoginDataType) const;
-
-	UFUNCTION(BlueprintCallable)
-	void InitPerson(TEnumAsByte<EPosition> Post);
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -60,18 +60,20 @@ protected:
 	FText MiddleName = FText::FromString("");
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FText LastName = FText::FromString("");
-
+	
+	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<EPosition> Position = P_Worker;
+
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FDateTime BirthDate = {};
 
+	
 private:
 	
 	UPROPERTY(VisibleAnywhere)
 	TMap<TEnumAsByte<ELoginData>, FLoginData> LoginsData = {};
-
 	
 	static FDateTime GetRandomBirthDate(TEnumAsByte<EPosition> Post);
 	static const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> YearOfBirth;

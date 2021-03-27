@@ -3,6 +3,10 @@
 
 #include "Person.h"
 
+
+
+#include "CourseWork/Services/Email/EmailService.h"
+#include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
 
@@ -16,7 +20,9 @@ const TArray<FString> UBasePerson::AllMiddleNames = {
 };
 
 const TArray<FString> UBasePerson::AllLastNames = {
-	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov"
+	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov", "Novikov", "Fedorov",
+	"Morozov", "Volkow", "Alekseyev", "Lebedev", "Semenov", "Yegorov", "Pavlov", "Kozlov", "Stepanov",  "Nikolaev",
+	"Orlov", "Andreev", 
 };
 
 const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirth = {
@@ -56,9 +62,24 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	FLoginData ComputerLoginData;
 	ComputerLoginData.Login = FirstName.ToString();
 	ComputerLoginData.Password = "12345";
-
+	
 	const TTuple<TEnumAsByte<ELoginData>, FLoginData> ComputerPass(LD_Computer, ComputerLoginData);
 	LoginsData.Add(ComputerPass);
+
+	AEmailService* EmailService = Cast<AEmailService>(
+		UGameplayStatics::GetActorOfClass(GetWorld(), AEmailService::StaticClass()));
+	
+	if(EmailService)
+	{
+		FLoginData MailLoginData;
+		MailLoginData.Login = LastName.ToString() + FString::FromInt(BirthDate.GetYear()) + "@tsu.ru";
+		MailLoginData.Password = "12345";
+		
+		const TTuple<TEnumAsByte<ELoginData>, FLoginData> MailPass(LD_Mail, MailLoginData);
+		LoginsData.Add(MailPass);
+		
+		EmailService->AddNewEmail(this, MailLoginData.Login, MailLoginData.Password);
+	}
 
 	
 }
