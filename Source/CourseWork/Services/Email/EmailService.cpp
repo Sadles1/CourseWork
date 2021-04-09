@@ -3,7 +3,6 @@
 
 #include "EmailService.h"
 #include "CourseWork/WorkPlace/Persons/Person.h"
-#include "Kismet/KismetMathLibrary.h"
 
 
 AEmailService::AEmailService()

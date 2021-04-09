@@ -36,9 +36,14 @@ const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirt
 };
 
 
-FLoginData UBasePerson::GetLoginData(const TEnumAsByte<ELoginData> LoginDataType) const
+FLoginData UBasePerson::GetLoginData(const TEnumAsByte<EApp> LoginDataType) const
 {
 	return LoginsData.FindRef(LoginDataType);
+}
+
+void UBasePerson::SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginDataType)
+{
+	LoginsData.Emplace(LoginDataType, LoginData);
 }
 
 void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
@@ -63,8 +68,9 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	FLoginData ComputerLoginData;
 	ComputerLoginData.Login = FirstName.ToString();
 	ComputerLoginData.Password = "12345";
+	ComputerLoginData.bRememberLogin = true;
 	
-	const TTuple<TEnumAsByte<ELoginData>, FLoginData> ComputerPass(LD_Computer, ComputerLoginData);
+	const TTuple<TEnumAsByte<EApp>, FLoginData> ComputerPass(App_Computer, ComputerLoginData);
 	LoginsData.Add(ComputerPass);
 
 	AEmailService* EmailService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetEmailService();
@@ -74,8 +80,9 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 		FLoginData MailLoginData;
 		MailLoginData.Login = LastName.ToString() + FString::FromInt(BirthDate.GetYear()) + "@tsu.ru";
 		MailLoginData.Password = "12345";
+		MailLoginData.bRememberLogin = true;
 		
-		const TTuple<TEnumAsByte<ELoginData>, FLoginData> MailPass(LD_Mail, MailLoginData);
+		const TTuple<TEnumAsByte<EApp>, FLoginData> MailPass(App_Mail, MailLoginData);
 		LoginsData.Add(MailPass);
 		
 		EmailService->AddNewEmail(this, MailLoginData.Login, MailLoginData.Password);

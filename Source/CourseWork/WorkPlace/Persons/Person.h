@@ -12,20 +12,25 @@ struct FLoginData
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FString Login;
-	UPROPERTY(EditAnywhere, BlueprintReadOnly)
-	FString Password;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FString Login = "";
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	FString Password = "";
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bRememberLogin = false;
+	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	bool bRememberPassword = false;
 };
 
 UENUM(BlueprintType)
-enum ELoginData
+enum EApp
 {
-	LD_Computer UMETA(DisplayName = "Computer"),
-	LD_Mail UMETA(DisplayName = "Mail"),
-	LD_Messenger UMETA(DisplayName = "Messenger"),
+	App_Computer UMETA(DisplayName = "Computer"),
+	App_Mail UMETA(DisplayName = "Mail"),
+	App_Messenger UMETA(DisplayName = "Messenger"),
 
-	LD_MAX,
+	App_MAX,
 };
 
 UENUM(BlueprintType)
@@ -51,7 +56,10 @@ public:
 
 	
 	UFUNCTION(BlueprintCallable)
-	FLoginData GetLoginData(TEnumAsByte<ELoginData> LoginDataType) const;
+	FLoginData GetLoginData(TEnumAsByte<EApp> LoginDataType) const;
+
+	UFUNCTION(BlueprintCallable)
+    void SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginDataType) ;
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -73,7 +81,7 @@ protected:
 private:
 	
 	UPROPERTY(VisibleAnywhere)
-	TMap<TEnumAsByte<ELoginData>, FLoginData> LoginsData = {};
+	TMap<TEnumAsByte<EApp>, FLoginData> LoginsData = {};
 	
 	static FDateTime GetRandomBirthDate(TEnumAsByte<EPosition> Post);
 	static const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> YearOfBirth;
