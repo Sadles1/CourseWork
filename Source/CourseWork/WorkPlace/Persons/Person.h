@@ -13,9 +13,9 @@ struct FLoginData
 
 public:
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FString Login = "";
+	FName Login = "";
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
-	FString Password = "";
+	FName Password = "";
 
 	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
 	bool bRememberLogin = false;

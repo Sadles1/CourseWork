@@ -3,20 +3,15 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "GameFramework/Actor.h"
+#include "CourseWork/Services/Base/BaseService.h"
 #include "MessengerService.generated.h"
 
 class UBasePerson;
 UCLASS()
-class COURSEWORK_API AMessengerService : public AActor
+class COURSEWORK_API UMessengerService : public UBaseService
 {
 	GENERATED_BODY()
 
 public:
-	AMessengerService();
-
-	void AddNewAccount(UBasePerson* MessengerOwner, const FName Mail, const FString Password) ;
-
-protected:
-	virtual void BeginPlay() override;
+	UMessengerService();
 };

@@ -2,26 +2,11 @@
 
 
 #include "MessengerService.h"
-
-#include "BaseMessengerAccount.h"
-#include "CourseWork/WorkPlace/Persons/Person.h"
+#include "MessengerAccount.h"
 
 
 // Sets default values
-AMessengerService::AMessengerService()
+UMessengerService::UMessengerService()
 {
-	// Set this actor to call Tick() every frame.  You can turn this off to improve performance if you don't need it.
-	PrimaryActorTick.bCanEverTick = false;
+	AccountClass = UMessengerAccount::StaticClass();
 }
-
-void AMessengerService::AddNewAccount(UBasePerson* MessengerOwner, const FName Mail, const FString Password)
-{
-	UBaseMessengerAccount* NewAccount = NewObject<UBaseMessengerAccount>(MessengerOwner);
-}
-
-// Called when the game starts or when spawned
-void AMessengerService::BeginPlay()
-{
-	Super::BeginPlay();
-}
-

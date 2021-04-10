@@ -3,14 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
-#include "CourseWork/Services/Email/EmailService.h"
 #include "GameFramework/GameModeBase.h"
 #include "CWGameMode.generated.h"
 
-/**
- * 
- */
+
+class AInternet;
 UCLASS()
 class COURSEWORK_API ACWGameMode : public AGameModeBase
 {
@@ -19,9 +16,9 @@ class COURSEWORK_API ACWGameMode : public AGameModeBase
 public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	AEmailService* GetEmailService();
-
+	AInternet* GetInternet();
+	
 private:
 	UPROPERTY(VisibleAnywhere)
-	AEmailService* EmailService = nullptr;
+	AInternet* Internet = nullptr;
 };

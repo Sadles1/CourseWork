@@ -2,9 +2,7 @@
 
 
 #include "Person.h"
-
-
-
+#include "CourseWork/Services/Internet.h"
 #include "CourseWork/Services/Email/EmailService.h"
 #include "CourseWork/Settings/CWGameMode.h"
 #include "Kismet/GameplayStatics.h"
@@ -66,26 +64,27 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	BirthDate = GetRandomBirthDate(Post);
 
 	FLoginData ComputerLoginData;
-	ComputerLoginData.Login = FirstName.ToString();
+	ComputerLoginData.Login = *FirstName.ToString();
 	ComputerLoginData.Password = "12345";
 	ComputerLoginData.bRememberLogin = true;
 	
 	const TTuple<TEnumAsByte<EApp>, FLoginData> ComputerPass(App_Computer, ComputerLoginData);
 	LoginsData.Add(ComputerPass);
 
-	AEmailService* EmailService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetEmailService();
+	UEmailService* EmailService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetInternet()->
+		GetEmailService();
 	
 	if(EmailService)
 	{
 		FLoginData MailLoginData;
-		MailLoginData.Login = LastName.ToString() + FString::FromInt(BirthDate.GetYear()) + "@tsu.ru";
+		MailLoginData.Login = *(LastName.ToString() + FString::FromInt(BirthDate.GetYear()) + "@tsu.ru");
 		MailLoginData.Password = "12345";
 		MailLoginData.bRememberLogin = true;
 		
 		const TTuple<TEnumAsByte<EApp>, FLoginData> MailPass(App_Mail, MailLoginData);
 		LoginsData.Add(MailPass);
 		
-		EmailService->AddNewEmail(this, MailLoginData.Login, MailLoginData.Password);
+		EmailService->AddNewAccount(this, MailLoginData.Login, MailLoginData.Password);
 	}
 }
 

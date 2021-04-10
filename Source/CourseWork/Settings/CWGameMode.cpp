@@ -2,14 +2,12 @@
 
 
 #include "CWGameMode.h"
+#include "CourseWork/Services/Internet.h"
 
-#include "Kismet/GameplayStatics.h"
-
-AEmailService* ACWGameMode::GetEmailService()
+AInternet* ACWGameMode::GetInternet()
 {
-	if(EmailService)
-		return EmailService;
+	if(!Internet)
+		Internet = GetWorld()->SpawnActor<AInternet>();
 	
-	EmailService = Cast<AEmailService>(UGameplayStatics::GetActorOfClass(GetWorld(), AEmailService::StaticClass()));
-	return EmailService;
+	return Internet;
 }

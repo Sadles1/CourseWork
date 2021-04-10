@@ -3,38 +3,26 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "BaseEmail.h"
-#include "GameFramework/Actor.h"
+#include "EmailAccount.h"
+#include "CourseWork/Services/Base/BaseService.h"
 #include "EmailService.generated.h"
 
 class UBasePerson;
 
 UCLASS()
-class COURSEWORK_API AEmailService : public AActor
+class COURSEWORK_API UEmailService : public UBaseService
 {
 	GENERATED_BODY()
 
 public:
-	AEmailService();
-	void AddNewEmail(UBasePerson* MailOwner, FString Mail, FString Password);
-
+	UEmailService();
 	
 	UFUNCTION(BlueprintCallable)
 	void SendMail(FMail Mail);
 
-	
-	UFUNCTION(BlueprintCallable)
-	UBaseEmail* LoginToEmail(const FString Email, const FString Password);
+	virtual void AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password) override;
 
-	
-protected:
-	virtual void BeginPlay() override;
-
-private:
-	UBaseEmail* FindEmail(const FString Mail);
-    UBaseEmail* FindEmailByOwner(const UBasePerson* Person);
-
-	
+private:	
 	UPROPERTY(VisibleAnywhere, Instanced)
-	TArray<UBaseEmail*> AllEmails = {};
+	TArray<UEmailAccount*> AllEmails = {};
 };
