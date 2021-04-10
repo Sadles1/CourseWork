@@ -16,12 +16,12 @@ class COURSEWORK_API UBaseMessengerAccount : public UObject
 public:
 	
 
-private:
+protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FName Login;
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FString Password;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+
 	TMap<FName, TArray<FText>> Messages;
 };
