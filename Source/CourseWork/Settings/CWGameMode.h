@@ -19,6 +19,6 @@ public:
 	AInternet* GetInternet();
 	
 private:
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY()
 	AInternet* Internet = nullptr;
 };

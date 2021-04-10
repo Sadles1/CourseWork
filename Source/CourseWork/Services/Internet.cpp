@@ -2,8 +2,6 @@
 
 
 #include "Internet.h"
-
-#include "Email/EmailAccount.h"
 #include "Email/EmailService.h"
 #include "Messenger/MessengerService.h"
 

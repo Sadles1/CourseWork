@@ -7,21 +7,24 @@
 #include "BaseServiceAccount.generated.h"
 
 
-UCLASS(Abstract)
+UCLASS(Abstract, BlueprintType, Blueprintable)
 class COURSEWORK_API UBaseServiceAccount : public UObject
 {
 	GENERATED_BODY()
 
 public:
+
+	//Setters
 	void SetLogin(const FName NewLogin) {Login = NewLogin;} 
 	void SetPassword(const FName NewPassword) {Password = NewPassword;}
-	
+
+	//Getters
 	FName GetLogin() const {return Login;}
 	FName GetPassword() const {return Password;}
 	
 protected:
-	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
     FName Login;
-    UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
+    UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
     FName Password;
 };

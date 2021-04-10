@@ -3,20 +3,24 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "Message.h"
+#include "MessengerChat.h"
 #include "CourseWork/Services/Base/BaseServiceAccount.h"
 #include "MessengerAccount.generated.h"
-
 
 UCLASS()
 class COURSEWORK_API UMessengerAccount : public UBaseServiceAccount
 {
 	GENERATED_BODY()
-
-	
 public:
-	
+	UFUNCTION(BlueprintCallable)
+	TArray<UMessengerChat*> GetChats() const {return Chats;}
 
-protected:
+	void AddToChat(UMessengerChat* Chat) {Chats.Add(Chat);}
+
+	void ReceiveMsg(UMessengerChat* ToChat, FMessage Msg);
 	
-	TMap<UMessengerAccount*, TArray<FText>> Messages;
+protected:
+	UPROPERTY(VisibleInstanceOnly, Instanced, Category = "Messages")
+	TArray<UMessengerChat*> Chats;
 };

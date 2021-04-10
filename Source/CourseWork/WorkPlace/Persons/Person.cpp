@@ -3,8 +3,9 @@
 
 #include "Person.h"
 #include "CourseWork/Services/Internet.h"
-#include "CourseWork/Services/Email/EmailService.h"
 #include "CourseWork/Settings/CWGameMode.h"
+#include "CourseWork/Services/Email/EmailService.h"
+#include "CourseWork/Services/Messenger/MessengerService.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 
@@ -71,20 +72,38 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	const TTuple<TEnumAsByte<EApp>, FLoginData> ComputerPass(App_Computer, ComputerLoginData);
 	LoginsData.Add(ComputerPass);
 
+	FName Login = *(LastName.ToString() + FString::FromInt(BirthDate.GetYear()));
+
 	UEmailService* EmailService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetInternet()->
 		GetEmailService();
 	
 	if(EmailService)
 	{
 		FLoginData MailLoginData;
-		MailLoginData.Login = *(LastName.ToString() + FString::FromInt(BirthDate.GetYear()) + "@tsu.ru");
+		MailLoginData.Login = *(Login.ToString() + "@tsu.ru");
 		MailLoginData.Password = "12345";
 		MailLoginData.bRememberLogin = true;
 		
-		const TTuple<TEnumAsByte<EApp>, FLoginData> MailPass(App_Mail, MailLoginData);
-		LoginsData.Add(MailPass);
+		const TTuple<TEnumAsByte<EApp>, FLoginData> Pass(App_Mail, MailLoginData);
+		LoginsData.Add(Pass);
 		
 		EmailService->AddNewAccount(this, MailLoginData.Login, MailLoginData.Password);
+	}
+
+	UMessengerService* MessengerService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetInternet()->
+        GetMessengerService();
+
+	if(MessengerService)
+	{
+		FLoginData MessengerLoginData;
+		MessengerLoginData.Login = Login;
+		MessengerLoginData.Password = "12345";
+		MessengerLoginData.bRememberLogin = true;
+		
+		const TTuple<TEnumAsByte<EApp>, FLoginData> Pass(App_Messenger, MessengerLoginData);
+		LoginsData.Add(Pass);
+		
+		MessengerService->AddNewAccount(this, MessengerLoginData.Login, MessengerLoginData.Password);
 	}
 }
 
@@ -98,17 +117,14 @@ FDateTime UBasePerson::GetRandomBirthDate(const TEnumAsByte<EPosition> Post)
 	const FDateTime BirthDate(Year, Month, Day);
 	return BirthDate;
 }
-
 FText UBasePerson::GetRandomName()
 {
 	return FText::FromString(AllNames[UKismetMathLibrary::RandomInteger(AllNames.Num())]);
 }
-
 FText UBasePerson::GetRandomMiddleName()
 {
 	return FText::FromString(AllMiddleNames[UKismetMathLibrary::RandomInteger(AllMiddleNames.Num())]);
 }
-
 FText UBasePerson::GetRandomLastName()
 {
 	return FText::FromString(AllLastNames[UKismetMathLibrary::RandomInteger(AllLastNames.Num())]);

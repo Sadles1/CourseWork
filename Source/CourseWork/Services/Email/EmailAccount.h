@@ -8,7 +8,7 @@
 #include "EmailAccount.generated.h"
 
 
-UCLASS(BlueprintType)
+UCLASS()
 class COURSEWORK_API UEmailAccount : public UBaseServiceAccount
 {
 	GENERATED_BODY()

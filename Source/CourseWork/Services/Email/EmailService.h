@@ -21,8 +21,4 @@ public:
 	void SendMail(FMail Mail);
 
 	virtual void AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password) override;
-
-private:	
-	UPROPERTY(VisibleAnywhere, Instanced)
-	TArray<UEmailAccount*> AllEmails = {};
 };

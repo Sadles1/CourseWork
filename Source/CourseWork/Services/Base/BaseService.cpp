@@ -17,10 +17,10 @@ void UBaseService::AddNewAccount(UBasePerson* AccountOwner, const FName Login, c
 
 UBaseServiceAccount* UBaseService::LoginToService(const FName Login, const FName Password)
 {
-	UBaseServiceAccount* FoundEmail = FindAccount(Login);
-	if (FoundEmail)
-		if (FoundEmail->GetPassword() == Password)
-			return FoundEmail;
+	UBaseServiceAccount* FoundAccount = FindAccount(Login);
+	if (FoundAccount)
+		if (FoundAccount->GetPassword() == Password)
+			return FoundAccount;
 
 	return nullptr;
 }

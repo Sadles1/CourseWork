@@ -3,6 +3,8 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "MessengerAccount.h"
 #include "CourseWork/Services/Base/BaseService.h"
 #include "MessengerService.generated.h"
 
@@ -14,4 +16,9 @@ class COURSEWORK_API UMessengerService : public UBaseService
 
 public:
 	UMessengerService();
+
+	virtual void AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password) override;
+
+	UPROPERTY()
+	UMessengerAccount* Support = nullptr;
 };

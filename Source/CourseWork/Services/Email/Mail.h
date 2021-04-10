@@ -22,19 +22,19 @@ struct FMail
 {
 	GENERATED_BODY()
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FName Sender;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FName Receiver;
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	TEnumAsByte<EMailCategory> Category = MC_Sent;
 	
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FText Topic;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FText Message;
 
-	UPROPERTY(VisibleAnywhere, Instanced, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, Instanced, BlueprintReadWrite)
 	TArray<UBaseFile*> AttachedFiles = {};
 };

@@ -31,7 +31,6 @@ private:
 	
 	UPROPERTY(VisibleInstanceOnly, Instanced)
 	UEmailService* EmailService = nullptr;
-	
 	UPROPERTY(VisibleInstanceOnly, Instanced)
 	UMessengerService* MessengerService = nullptr;
 };
