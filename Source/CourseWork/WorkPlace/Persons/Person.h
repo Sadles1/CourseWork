@@ -46,6 +46,17 @@ enum EPosition
 	P_MAX,
 };
 
+UENUM(BlueprintType)
+enum EPasswordDifficulty
+{
+	PD_Repeated UMETA(DisplayName = "Worker"),
+	PD_Easy UMETA(DisplayName = "Easy"),
+	PD_Medium UMETA(DisplayName = "Medium"),
+	PD_Hard UMETA(DisplayName = "Hard"),
+
+	PD_MAX,
+};
+
 UCLASS(Blueprintable)
 class COURSEWORK_API UBasePerson : public UObject
 {
@@ -85,7 +96,6 @@ private:
 	
 	static FDateTime GetRandomBirthDate(TEnumAsByte<EPosition> Post);
 	static const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> YearOfBirth;
-
 	
 	static FText GetRandomName();
 	static const TArray<FString> AllNames; 
@@ -94,6 +104,11 @@ private:
 	static const TArray<FString> AllMiddleNames; 
 	
 	static FText GetRandomLastName();
-	static const TArray<FString> AllLastNames; 
+	static const TArray<FString> AllLastNames;
+
+	UFUNCTION(BlueprintCallable)
+	FName GenerateRandomPassword(TEnumAsByte<EPasswordDifficulty> Difficulty);
+	static const TArray<FName> EasyPasswords;
+	
 	
 };

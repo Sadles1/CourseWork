@@ -30,7 +30,21 @@ void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName Log
 		UMessengerChat* SupportChat = NewObject<UMessengerChat>(Support);
 		SupportChat->SetChatName("Support");
 		
+		Support->AddToChat(SupportChat);
 		SelfAccount->AddToChat(SupportChat);
-		SelfAccount->ReceiveMsg(SupportChat, Msg);
+
+		
+		SelfAccount->SendMsg(SupportChat, Msg);
+	}
+}
+
+void UMessengerService::CreateNewChatByPattern(const TSubclassOf<UChatPattern> Pattern, UMessengerAccount* User1, UMessengerAccount* User2)
+{
+	UChatPattern* ChatPattern = NewObject<UChatPattern>(this, Pattern);
+	if(ChatPattern)
+	{
+		UMessengerChat* NewChat = ChatPattern->CreateChat(User1, User2);
+		User1->AddToChat(NewChat);
+		User2->AddToChat(NewChat);
 	}
 }

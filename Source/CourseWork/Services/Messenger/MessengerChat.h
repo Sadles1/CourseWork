@@ -12,8 +12,10 @@ class COURSEWORK_API UMessengerChat : public UObject
 	GENERATED_BODY()
 
 public:
+	UFUNCTION(BlueprintCallable)
 	void AddMessage(const FMessage Msg) {Messages.Add(Msg);}
 
+	UFUNCTION(BlueprintCallable)
 	void SetChatName(const FName NewChatName) {ChatName = NewChatName;}
 	
 protected:

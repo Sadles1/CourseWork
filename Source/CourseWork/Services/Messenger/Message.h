@@ -13,14 +13,14 @@ struct FMessage
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	UMessengerAccount* Sender = nullptr;
 	
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FText Message;
 
 protected:
-	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
-	bool bRead = false;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+	bool bRead = true;
 	
 };

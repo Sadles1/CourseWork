@@ -26,7 +26,9 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UBaseServiceAccount* LoginToService(const FName Login, const FName Password);
 
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UBaseServiceAccount* FindAccount(const FName Login);
+	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UBaseServiceAccount* FindAccountByOwner(const UBasePerson* OwnerPerson);
 	
 protected:

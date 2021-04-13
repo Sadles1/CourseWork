@@ -3,7 +3,7 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
+#include "ChatPattern.h"
 #include "MessengerAccount.h"
 #include "CourseWork/Services/Base/BaseService.h"
 #include "MessengerService.generated.h"
@@ -21,4 +21,8 @@ public:
 
 	UPROPERTY()
 	UMessengerAccount* Support = nullptr;
+
+	UFUNCTION(BlueprintCallable)
+	void CreateNewChatByPattern(const TSubclassOf<UChatPattern> Pattern, UMessengerAccount* User1,
+	                            UMessengerAccount* User2);
 };

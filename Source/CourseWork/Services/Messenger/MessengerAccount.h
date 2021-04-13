@@ -18,7 +18,7 @@ public:
 
 	void AddToChat(UMessengerChat* Chat) {Chats.Add(Chat);}
 
-	void ReceiveMsg(UMessengerChat* ToChat, FMessage Msg);
+	void SendMsg(UMessengerChat* ToChat, FMessage Msg);
 	
 protected:
 	UPROPERTY(VisibleInstanceOnly, Instanced, Category = "Messages")
