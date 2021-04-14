@@ -7,7 +7,7 @@
 #include "GameFramework/Actor.h"
 #include "BaseComputer.generated.h"
 
-class UFileSystemAsset;
+class UFileSystemPattern;
 class UBasePerson;
 class UBaseFileCatalogue;
 class UStaticMeshComponent;
@@ -44,7 +44,7 @@ private:
  	TSubclassOf<UBasePerson> PersonClass = nullptr;
 
 	UPROPERTY(EditAnywhere, Category = "FileSystem")
-	TSubclassOf<UFileSystemAsset> FileSystemAsset;
+	TSubclassOf<UFileSystemPattern> FileSystemPattern;
 
 	UPROPERTY(BlueprintReadOnly, VisibleInstanceOnly, Instanced, meta = (AllowPrivateAccess = "true"), Category = "Person")
 	UBasePerson* OwnerPerson = nullptr;

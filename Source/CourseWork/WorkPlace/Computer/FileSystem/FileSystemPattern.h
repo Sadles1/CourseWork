@@ -3,12 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "FileSystemAsset.generated.h"
+#include "FileSystemPattern.generated.h"
 
 class UBaseFileCatalogue;
 
 UCLASS(Abstract, Blueprintable)
-class COURSEWORK_API UFileSystemAsset : public UObject
+class COURSEWORK_API UFileSystemPattern : public UObject
 {
 	GENERATED_BODY()
 	

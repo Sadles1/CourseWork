@@ -22,5 +22,16 @@ public:
 protected:
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	bool bRead = true;
-	
+};
+
+USTRUCT(BlueprintType)
+struct FDialogMessage : public FMessage
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(BlueprintReadWrite)
+	float TimeToWrite = 0.1f;
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+	bool bCanWrite = false;
 };

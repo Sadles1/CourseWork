@@ -3,7 +3,7 @@
 
 #include "BaseComputer.h"
 #include "CourseWork/WorkPlace/Persons/Person.h"
-#include "FileSystem/FileSystemAsset.h"
+#include "FileSystem/FileSystemPattern.h"
 
 ABaseComputer::ABaseComputer()
 {
@@ -32,8 +32,8 @@ void ABaseComputer::SetOwnerPerson(UBasePerson* NewOwnerPerson)
 	OwnerPerson = NewOwnerPerson;
 	OwnerPerson->InitPerson(Position);
 	
-	if(!FileSystemAsset) return;
+	if(!FileSystemPattern) return;
 	
- 	UFileSystemAsset* NewFileSystem = NewObject<UFileSystemAsset>(this, FileSystemAsset);
+ 	UFileSystemPattern* NewFileSystem = NewObject<UFileSystemPattern>(this, FileSystemPattern);
 	RootFileCatalogue = NewFileSystem->GenerateFileSystem();
 }
