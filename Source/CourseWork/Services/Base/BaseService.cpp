@@ -7,7 +7,7 @@
 #include "CourseWork/WorkPlace/Persons/Person.h"
 
 
-void UBaseService::AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password)
+void UBaseService::AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password)
 {
 	UBaseServiceAccount* NewAccount = NewObject<UBaseServiceAccount>(AccountOwner, AccountClass);
 	NewAccount->SetLogin(Login);
@@ -15,7 +15,7 @@ void UBaseService::AddNewAccount(UBasePerson* AccountOwner, const FName Login, c
 	AllAccounts.Add(NewAccount);
 }
 
-UBaseServiceAccount* UBaseService::LoginToService(const FName Login, const FName Password)
+UBaseServiceAccount* UBaseService::LoginToService(const FName& Login, const FName& Password)
 {
 	UBaseServiceAccount* FoundAccount = FindAccount(Login);
 	if (FoundAccount)
@@ -25,7 +25,7 @@ UBaseServiceAccount* UBaseService::LoginToService(const FName Login, const FName
 	return nullptr;
 }
 
-UBaseServiceAccount* UBaseService::FindAccount(const FName Login)
+UBaseServiceAccount* UBaseService::FindAccount(const FName& Login)
 {
 	for (auto Account : AllAccounts)
 		if (Account->GetLogin() == Login)

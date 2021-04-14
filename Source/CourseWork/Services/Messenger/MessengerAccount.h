@@ -4,9 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "CourseWork/Services/Base/BaseServiceAccount.h"
+#include "CourseWork/WorkPlace/Persons/PersonInfo.h"
+
 #include "MessengerAccount.generated.h"
 
 struct FMessage;
+
 class UMessengerChat;
 
 UCLASS()
@@ -21,11 +24,18 @@ public:
 	void SendMsg(UMessengerChat* ToChat, FMessage Msg);
 
 	void SetMail(const FName NewMail) {Mail = NewMail;}
-	
+
+	FName GetMail() const {return Mail;}
+
+	void SetSecretQuestionCategory(const TEnumAsByte<ESecretQuestion> SecretQuestion);
+
 protected:
 	UPROPERTY(VisibleInstanceOnly, Instanced, Category = "Messages")
 	TArray<UMessengerChat*> Chats;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
 	FName Mail = "";
+	
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
+	TEnumAsByte<ESecretQuestion> SecretQuestionCategory;
 };

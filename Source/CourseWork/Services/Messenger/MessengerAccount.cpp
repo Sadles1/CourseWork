@@ -9,3 +9,8 @@ void UMessengerAccount::SendMsg(UMessengerChat* ToChat, const FMessage Msg)
 	if(Chat)
 		Chat->AddMessage(Msg);
 }
+
+void UMessengerAccount::SetSecretQuestionCategory(const TEnumAsByte<ESecretQuestion> SecretQuestion)
+{
+	SecretQuestionCategory = SecretQuestion;
+}

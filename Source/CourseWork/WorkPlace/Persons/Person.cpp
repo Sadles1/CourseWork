@@ -1,11 +1,13 @@
 ﻿// Fill out your copyright notice in the Description page of Project Settings.
 
+#include "Person.h"
+
+
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
 #include "Engine/DataTable.h"
 
 
-#include "Person.h"
 #include "CourseWork/Services/Internet.h"
 #include "CourseWork/Settings/CWGameMode.h"
 #include "CourseWork/Services/Email/EmailService.h"
@@ -17,11 +19,9 @@ const TArray<FString> UBasePerson::AllNames = {
 	"Vitaliy", "Alexey", "Pavel", "Dmitry", "John", "James", "Evgeniy", "Sergei", "Ivan", "Nikolay", "Michael",
 	"Pupa", "Lupa", "Biba", "Boba"
 };
-
 const TArray<FString> UBasePerson::AllMiddleNames = {
 	"Vitalievich", "Alexeyevich", "Dmitrievich", "Nikolayevich", "Petrovich"
 };
-
 const TArray<FString> UBasePerson::AllLastNames = {
 	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov", "Novikov", "Fedorov",
 	"Morozov", "Volkow", "Alekseyev", "Lebedev", "Semenov", "Yegorov", "Pavlov", "Kozlov", "Stepanov", "Nikolaev",
@@ -37,7 +37,6 @@ const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirt
 	{P_SystemAdministrator, TTuple<int16, int16>(1985, 1995)}
 };
 
-
 FLoginData UBasePerson::GetLoginData(const TEnumAsByte<EApp> LoginDataType) const
 {
 	return LoginsData.FindRef(LoginDataType);
@@ -51,8 +50,8 @@ void UBasePerson::SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginData
 void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 {
 	//EasyPasswords =;
-	EasyPasswords = *EasyPasswordsDataTable->FindRow<FPasswords>("EasyPasswords","");
-	
+	EasyPasswords = *EasyPasswordsDataTable->FindRow<FPasswords>("EasyPasswords", "");
+
 	Position = Post;
 
 	if (Position == P_Director)
@@ -112,11 +111,60 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 		MessengerService->AddNewAccount(this, MessengerLoginData.Login, MessengerLoginData.Password);
 
 		UMessengerAccount* Account = Cast<UMessengerAccount>(MessengerService->FindAccountByOwner(this));
-		
+
 		Account->SetMail(GetLoginData(App_Mail).Login);
 	}
 }
 
+void UBasePerson::GenerateSelfInfo(const TEnumAsByte<ESecretQuestion> InfoCategory)
+{
+	TTuple<TEnumAsByte<ESecretQuestion>, FText> TupleInfo;
+	TupleInfo.Key = InfoCategory;
+	switch (InfoCategory)
+	{
+	case SQ_FavoriteFood:
+		{
+			TupleInfo.Value = FText::FromString("Fish");
+			break;
+		}
+	case SQ_FavoriteFilm:
+		{
+			TupleInfo.Value = FText::FromString("Avangers");
+			break;
+		}
+	case SQ_FavoriteSeries:
+		{
+			TupleInfo.Value = FText::FromString("Game of thrones");
+			break;
+		}
+	case SQ_FavoriteMusic:
+		{
+			TupleInfo.Value = FText::FromString("Coi");
+			break;
+		}
+	case SQ_ChildhoodFriend:
+		{
+			TupleInfo.Value = GetRandomName();
+			break;
+		}
+	case SQ_SecondSurname:
+		{
+			TupleInfo.Value = GetRandomLastName();
+			break;
+		}
+	case SQ_BirthPlace:
+		{
+			TupleInfo.Value = FText::FromString("Perm");
+			break;
+		}
+	default:
+		{
+			break;
+		}
+	}
+
+	SelfInfo.Add(TupleInfo);
+}
 
 FDateTime UBasePerson::GetRandomBirthDate(const TEnumAsByte<EPosition> Post)
 {
@@ -151,7 +199,8 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 	{
 	case PD_Easy:
 		{
-			Password = EasyPasswords.PasswordVariants[UKismetMathLibrary::RandomInteger(EasyPasswords.PasswordVariants.Num())];
+			Password = EasyPasswords.PasswordVariants[UKismetMathLibrary::RandomInteger(
+				EasyPasswords.PasswordVariants.Num())];
 			break;
 		}
 	case PD_Medium:
@@ -164,7 +213,7 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 		}
 	case PD_Repeated:
 		{
-			Password = LoginsData.Find(App_Computer)->Password;		
+			Password = LoginsData.Find(App_Computer)->Password;
 			break;
 		}
 	default:

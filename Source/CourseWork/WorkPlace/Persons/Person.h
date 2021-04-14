@@ -66,12 +66,22 @@ class COURSEWORK_API UBasePerson : public UObject
 	
 public:
 	void InitPerson(TEnumAsByte<EPosition> Post);
-	
+
+	UFUNCTION(BlueprintCallable)
+	void GenerateSelfInfo(const TEnumAsByte<ESecretQuestion> InfoCategory);
+
 	UFUNCTION(BlueprintCallable)
 	FLoginData GetLoginData(TEnumAsByte<EApp> LoginDataType) const;
 
 	UFUNCTION(BlueprintCallable)
-    void SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginDataType) ;
+    void SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginDataType);
+
+	UFUNCTION(BlueprintCallable, BlueprintPure)
+	FText GetPersonalInfo(const TEnumAsByte<ESecretQuestion> InfoCategory)
+	{
+		return *SelfInfo.Find(InfoCategory);
+	}
+	
 protected:
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
@@ -81,10 +91,8 @@ protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FText LastName = FText::FromString("");
 	
-	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TEnumAsByte<EPosition> Position = P_Worker;
-
 	
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	FDateTime BirthDate = {};
@@ -92,8 +100,11 @@ protected:
 	
 private:
 	
-	UPROPERTY(VisibleAnywhere)
+	UPROPERTY(VisibleInstanceOnly)
 	TMap<TEnumAsByte<EApp>, FLoginData> LoginsData = {};
+
+	UPROPERTY(VisibleInstanceOnly)
+	TMap<TEnumAsByte<ESecretQuestion>, FText> SelfInfo = {};
 	
 	static FDateTime GetRandomBirthDate(TEnumAsByte<EPosition> Post);
 	static const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> YearOfBirth;

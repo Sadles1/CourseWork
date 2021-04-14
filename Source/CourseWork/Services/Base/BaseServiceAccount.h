@@ -15,8 +15,10 @@ class COURSEWORK_API UBaseServiceAccount : public UObject
 public:
 
 	//Setters
-	void SetLogin(const FName NewLogin) {Login = NewLogin;} 
-	void SetPassword(const FName NewPassword) {Password = NewPassword;}
+	UFUNCTION(BlueprintCallable)
+	void SetLogin(const FName& NewLogin) {Login = NewLogin;}
+	UFUNCTION(BlueprintCallable)
+	void SetPassword(const FName& NewPassword) {Password = NewPassword;}
 
 	//Getters
 	FName GetLogin() const {return Login;}

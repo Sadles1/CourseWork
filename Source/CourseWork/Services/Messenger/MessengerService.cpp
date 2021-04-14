@@ -6,7 +6,14 @@
 #include "Chat/MessengerChat.h"
 #include "Chat/Message.h"
 #include "Chat/ChatPattern.h"
+#include "CourseWork/WorkPlace/Persons/Person.h"
+#include "Kismet/KismetMathLibrary.h"
 
+
+const TArray<TEnumAsByte<ESecretQuestion>> UMessengerService::SecretQuestionCategory = {
+	SQ_BirthPlace, SQ_ChildhoodFriend, SQ_FavoriteFilm, SQ_FavoriteFood,
+	SQ_FavoriteMusic, SQ_FavoriteSeries, SQ_SecondSurname
+};
 
 // Sets default values
 UMessengerService::UMessengerService()
@@ -16,13 +23,20 @@ UMessengerService::UMessengerService()
 	Support = CreateDefaultSubobject<UMessengerAccount>(TEXT("Support"));
 }
 
-void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password)
+void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password)
 {
 	Super::AddNewAccount(AccountOwner, Login, Password);
 
 	UMessengerAccount* SelfAccount = Cast<UMessengerAccount>(FindAccountByOwner(AccountOwner));
 	if(SelfAccount)
 	{
+		const TEnumAsByte<ESecretQuestion> SecretQuestion = SecretQuestionCategory[UKismetMathLibrary::RandomInteger(
+			SecretQuestionCategory.Num())];
+
+		AccountOwner->GenerateSelfInfo(SecretQuestion);
+		
+		SelfAccount->SetSecretQuestionCategory(SecretQuestion);
+		
 		FMessage Msg;
 		Msg.Sender = Support;
 	
@@ -35,7 +49,6 @@ void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName Log
 		
 		Support->AddToChat(SupportChat);
 		SelfAccount->AddToChat(SupportChat);
-
 		
 		SelfAccount->SendMsg(SupportChat, Msg);
 	}
@@ -50,4 +63,17 @@ void UMessengerService::CreateNewChatByPattern(const TSubclassOf<UChatPattern> P
 		User1->AddToChat(NewChat);
 		User2->AddToChat(NewChat);
 	}
+}
+
+UMessengerAccount* UMessengerService::FindAccountByMail(const FName& Mail)
+{
+	for(auto Account : AllAccounts)
+	{
+		UMessengerAccount* MsgAccount = Cast<UMessengerAccount>(Account);
+		if(Mail == MsgAccount->GetMail())
+		{
+			return MsgAccount;
+		}
+	}
+	return nullptr;
 }

@@ -26,7 +26,7 @@ void UEmailService::SendMail(FMail Mail)
 		Receiver->ReceiveMail(Mail);
 }
 
-void UEmailService::AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password)
+void UEmailService::AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password)
 {
 	Super::AddNewAccount(AccountOwner, Login, Password);
 

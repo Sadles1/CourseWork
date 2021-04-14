@@ -17,14 +17,13 @@ class COURSEWORK_API UBaseService : public UObject
 	GENERATED_BODY()
 
 public:
-
-	virtual void AddNewAccount(UBasePerson* AccountOwner, const FName Login, const FName Password);
+	virtual void AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password);
 
 	UFUNCTION(BlueprintCallable)
-	UBaseServiceAccount* LoginToService(const FName Login, const FName Password);
+	UBaseServiceAccount* LoginToService(const FName& Login, const FName& Password);
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	UBaseServiceAccount* FindAccount(const FName Login);
+	UBaseServiceAccount* FindAccount(const FName& Login);
 	UFUNCTION(BlueprintCallable, BlueprintPure)
 	UBaseServiceAccount* FindAccountByOwner(const UBasePerson* OwnerPerson);
 	
