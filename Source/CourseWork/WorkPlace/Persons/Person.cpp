@@ -8,6 +8,7 @@
 #include "CourseWork/Services/Messenger/MessengerService.h"
 #include "Kismet/GameplayStatics.h"
 #include "Kismet/KismetMathLibrary.h"
+#include "Engine/DataTable.h"
 
 
 const TArray<FString> UBasePerson::AllNames = {
@@ -25,13 +26,13 @@ const TArray<FString> UBasePerson::AllLastNames = {
 	"Orlov", "Andreev",
 };
 
-const TArray<FName> UBasePerson::EasyPasswords = {
-	"123", "1234", "12345", "666", "777", "qwerty", "asdf", "zxcv1234", "0987", "123654", "111111", "password", "123456",
-	"123456789", "test1", "12345678", "1234567890", "abc123", "123123", "test", "11111", "00000", "000000", "password1",
-	"654321", "55555", "666666", "asdfghjkl", "family", "q1w2e3r4t5y6", "qwerty123", "112233", "122333", "987654321",
-	"0987654321", "Password", "1q2w3e4r", "computer", "admin", "123qwe", "7777777", "123abc", "batman", "cheese", "secret",
-	"123123123", "qazwsx", "555555", "123456a", "11111111", "a123456", "0123456789", "q1w2e3r4"
-};
+// const TArray<FName> UBasePerson::EasyPasswords = {
+// 	"123", "1234", "12345", "666", "777", "qwerty", "asdf", "zxcv1234", "0987", "123654", "111111", "password", "123456",
+// 	"123456789", "test1", "12345678", "1234567890", "abc123", "123123", "test", "11111", "00000", "000000", "password1",
+// 	"654321", "55555", "666666", "asdfghjkl", "family", "q1w2e3r4t5y6", "qwerty123", "112233", "122333", "987654321",
+// 	"0987654321", "Password", "1q2w3e4r", "computer", "admin", "123qwe", "7777777", "123abc", "batman", "cheese", "secret",
+// 	"123123123", "qazwsx", "555555", "123456a", "11111111", "a123456", "0123456789", "q1w2e3r4"
+// };
 
 const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirth = {
 	{P_Worker, TTuple<int16, int16>(1975, 2003)},
@@ -55,6 +56,9 @@ void UBasePerson::SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginData
 
 void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 {
+	//EasyPasswords =;
+	EasyPasswords = *EasyPasswordsDataTable->FindRow<FPasswords>("EasyPasswords","");
+	
 	Position = Post;
 
 	if (Position == P_Director)
@@ -149,7 +153,7 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 	{
 	case PD_Easy:
 		{
-			Password = EasyPasswords[UKismetMathLibrary::RandomInteger(EasyPasswords.Num())];
+			Password = EasyPasswords.PasswordVariants[UKismetMathLibrary::RandomInteger(EasyPasswords.PasswordVariants.Num())];
 			break;
 		}
 	case PD_Medium:

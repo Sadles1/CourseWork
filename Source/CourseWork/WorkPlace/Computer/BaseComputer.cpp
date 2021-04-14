@@ -23,7 +23,7 @@ void ABaseComputer::BeginPlay()
 {
 	Super::BeginPlay();
 
-	SetOwnerPerson(NewObject<UBasePerson>(this));
+	SetOwnerPerson(NewObject<UBasePerson>(this, PersonClass));
 }
 
 void ABaseComputer::SetOwnerPerson(UBasePerson* NewOwnerPerson)

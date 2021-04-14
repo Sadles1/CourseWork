@@ -3,9 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
+#include "PersonInfo.h"
 #include "UObject/Object.h"
 #include "Person.generated.h"
 
+class UDataTable;
 USTRUCT(BlueprintType)
 struct FLoginData
 {
@@ -64,7 +66,6 @@ class COURSEWORK_API UBasePerson : public UObject
 	
 public:
 	void InitPerson(TEnumAsByte<EPosition> Post);
-
 	
 	UFUNCTION(BlueprintCallable)
 	FLoginData GetLoginData(TEnumAsByte<EApp> LoginDataType) const;
@@ -108,7 +109,8 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	FName GenerateRandomPassword(TEnumAsByte<EPasswordDifficulty> Difficulty);
-	static const TArray<FName> EasyPasswords;
-	
-	
+	FPasswords EasyPasswords;
+
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* EasyPasswordsDataTable = nullptr;
 };

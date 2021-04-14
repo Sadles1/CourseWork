@@ -39,6 +39,9 @@ private:
 	UPROPERTY()
 	UBaseFileCatalogue* RootFileCatalogue = nullptr;
 
+	UPROPERTY(EditDefaultsOnly)
+ 	TSubclassOf<UBasePerson> PersonClass = nullptr;
+
 	UPROPERTY(EditAnywhere, Category = "FileSystem")
 	TSubclassOf<UFileSystemAsset> FileSystemAsset;
 
