@@ -4,10 +4,10 @@
 #include "CWGameMode.h"
 #include "CourseWork/Services/Internet.h"
 
-AInternet* ACWGameMode::GetInternet()
+UInternet* ACWGameMode::GetInternet()
 {
 	if(!Internet)
-		Internet = GetWorld()->SpawnActor<AInternet>();
+		Internet = NewObject<UInternet>();
 	
 	return Internet;
 }

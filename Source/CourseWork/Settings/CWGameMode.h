@@ -6,8 +6,8 @@
 #include "GameFramework/GameModeBase.h"
 #include "CWGameMode.generated.h"
 
+class UInternet;
 
-class AInternet;
 UCLASS()
 class COURSEWORK_API ACWGameMode : public AGameModeBase
 {
@@ -16,9 +16,9 @@ class COURSEWORK_API ACWGameMode : public AGameModeBase
 public:
 
 	UFUNCTION(BlueprintCallable, BlueprintPure)
-	AInternet* GetInternet();
+	UInternet* GetInternet();
 	
 private:
 	UPROPERTY()
-	AInternet* Internet = nullptr;
+	UInternet* Internet = nullptr;
 };
