@@ -18,10 +18,14 @@ public:
 	TArray<UMessengerChat*> GetChats() const {return Chats;}
 
 	void AddToChat(UMessengerChat* Chat) {Chats.Add(Chat);}
-
 	void SendMsg(UMessengerChat* ToChat, FMessage Msg);
+
+	void SetMail(const FName NewMail) {Mail = NewMail;}
 	
 protected:
 	UPROPERTY(VisibleInstanceOnly, Instanced, Category = "Messages")
 	TArray<UMessengerChat*> Chats;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
+	FName Mail = "";
 };

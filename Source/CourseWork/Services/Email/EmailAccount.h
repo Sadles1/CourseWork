@@ -7,6 +7,7 @@
 #include "Mail.h"
 #include "EmailAccount.generated.h"
 
+DECLARE_DYNAMIC_MULTICAST_DELEGATE(FReceiveMailDelegate);
 
 UCLASS()
 class COURSEWORK_API UEmailAccount : public UBaseServiceAccount
@@ -14,8 +15,15 @@ class COURSEWORK_API UEmailAccount : public UBaseServiceAccount
 	GENERATED_BODY()
 
 public:
-	void ReceiveMail(const FMail& Mail) {Mails.Add(Mail);}
+	UPROPERTY(BlueprintAssignable)
+	FReceiveMailDelegate ReceiveMailDelegate;
 	
+	void ReceiveMail(const FMail& Mail)
+	{
+		Mails.Add(Mail);
+		ReceiveMailDelegate.Broadcast();
+	}
+
 protected:
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly)
 	TArray<FMail> Mails;

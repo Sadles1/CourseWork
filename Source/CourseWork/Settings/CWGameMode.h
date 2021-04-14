@@ -19,6 +19,6 @@ public:
 	UInternet* GetInternet();
 	
 private:
-	UPROPERTY()
+	UPROPERTY(VisibleInstanceOnly, Instanced)
 	UInternet* Internet = nullptr;
 };
