@@ -4,11 +4,12 @@
 
 #include "CoreMinimal.h"
 #include "CourseWork/WorkPlace/Persons/Person.h"
-#include "FileSystem/BaseFileCatalogue.h"
-#include "FileSystem/Assets/FileSystemAsset.h"
 #include "GameFramework/Actor.h"
 #include "BaseComputer.generated.h"
 
+class UFileSystemAsset;
+class UBasePerson;
+class UBaseFileCatalogue;
 class UStaticMeshComponent;
 
 UCLASS()

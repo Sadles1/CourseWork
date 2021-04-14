@@ -3,6 +3,9 @@
 
 #include "MessengerService.h"
 #include "MessengerAccount.h"
+#include "Chat/MessengerChat.h"
+#include "Chat/Message.h"
+#include "Chat/ChatPattern.h"
 
 
 // Sets default values

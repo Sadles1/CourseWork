@@ -6,6 +6,5 @@
 void UBaseFileReaderWidget::AddFile(UBaseFile* File)
 {
 	FileToRead = File;
-
 	ReadFile();
 }

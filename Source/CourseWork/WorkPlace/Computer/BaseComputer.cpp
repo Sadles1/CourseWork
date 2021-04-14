@@ -3,6 +3,7 @@
 
 #include "BaseComputer.h"
 #include "CourseWork/WorkPlace/Persons/Person.h"
+#include "FileSystem/FileSystemAsset.h"
 
 ABaseComputer::ABaseComputer()
 {

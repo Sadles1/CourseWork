@@ -3,10 +3,11 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "Message.h"
-#include "MessengerChat.h"
 #include "CourseWork/Services/Base/BaseServiceAccount.h"
 #include "MessengerAccount.generated.h"
+
+struct FMessage;
+class UMessengerChat;
 
 UCLASS()
 class COURSEWORK_API UMessengerAccount : public UBaseServiceAccount

@@ -3,12 +3,13 @@
 #pragma once
 
 #include "CoreMinimal.h"
-#include "ChatPattern.h"
-#include "MessengerAccount.h"
 #include "CourseWork/Services/Base/BaseService.h"
 #include "MessengerService.generated.h"
 
+class UMessengerAccount;
+class UChatPattern;
 class UBasePerson;
+
 UCLASS()
 class COURSEWORK_API UMessengerService : public UBaseService
 {

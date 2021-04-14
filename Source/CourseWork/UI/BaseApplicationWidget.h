@@ -6,9 +6,7 @@
 #include "Blueprint/UserWidget.h"
 #include "BaseApplicationWidget.generated.h"
 
-/**
- * 
- */
+
 UCLASS(Abstract)
 class COURSEWORK_API UBaseApplicationWidget : public UUserWidget
 {

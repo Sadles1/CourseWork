@@ -1,5 +1,7 @@
 ﻿
 #include "MessengerAccount.h"
+#include "Chat/Message.h"
+#include "Chat/MessengerChat.h"
 
 void UMessengerAccount::SendMsg(UMessengerChat* ToChat, const FMessage Msg)
 {

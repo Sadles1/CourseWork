@@ -3,16 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
-
 #include "BaseApplicationWidget.h"
-
 #include "BaseFileReaderWidget.generated.h"
 
 class UBaseFile;
 
-/**
- * 
- */
+
 UCLASS(Abstract)
 class COURSEWORK_API UBaseFileReaderWidget : public UBaseApplicationWidget
 {
