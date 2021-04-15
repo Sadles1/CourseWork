@@ -7,21 +7,26 @@
 #include "UObject/Object.h"
 #include "Person.generated.h"
 
+class UBaseServiceAccount;
 class UDataTable;
+
 USTRUCT(BlueprintType)
 struct FLoginData
 {
 	GENERATED_BODY()
 
 public:
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FName Login = "";
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FName Password = "";
 
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
+	UBaseServiceAccount* Account = nullptr;
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	bool bRememberLogin = false;
-	UPROPERTY(VisibleAnywhere, BlueprintReadWrite)
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	bool bRememberPassword = false;
 };
 
@@ -51,7 +56,7 @@ enum EPosition
 UENUM(BlueprintType)
 enum EPasswordDifficulty
 {
-	PD_Repeated UMETA(DisplayName = "Worker"),
+	//PD_Repeated UMETA(DisplayName = "Repeated"),
 	PD_Easy UMETA(DisplayName = "Easy"),
 	PD_Medium UMETA(DisplayName = "Medium"),
 	PD_Hard UMETA(DisplayName = "Hard"),
@@ -99,7 +104,7 @@ protected:
 
 	
 private:
-	
+
 	UPROPERTY(VisibleInstanceOnly)
 	TMap<TEnumAsByte<EApp>, FLoginData> LoginsData = {};
 
@@ -118,10 +123,19 @@ private:
 	static FText GetRandomLastName();
 	static const TArray<FString> AllLastNames;
 
+	FName GetRepeatedPassword(TEnumAsByte<EApp> PassToRepeat); 
+
 	UFUNCTION(BlueprintCallable)
 	FName GenerateRandomPassword(TEnumAsByte<EPasswordDifficulty> Difficulty);
 	FPasswords EasyPasswords;
 
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* EasyPasswordsDataTable = nullptr;
+
+	static FName GenerateHardPassword();
+
+	UFUNCTION(BlueprintCallable)
+	void SetPersonPassword(const TEnumAsByte<EApp> App, const TEnumAsByte<EPasswordDifficulty> PassDifficulty);
+	UFUNCTION(BlueprintCallable)
+	void SetRepeatedPassword(TEnumAsByte<EApp> App, TEnumAsByte<EApp> PassToRepeat);
 };

@@ -86,13 +86,17 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	{
 		FLoginData MailLoginData;
 		MailLoginData.Login = *(Login.ToString() + "@tsu.ru");
-		MailLoginData.Password = "12345";
+		MailLoginData.Password = GetRepeatedPassword(App_Computer);
 		MailLoginData.bRememberLogin = true;
+		
+		EmailService->AddNewAccount(this, MailLoginData.Login, MailLoginData.Password);
+		
+		UEmailAccount* Account = Cast<UEmailAccount>(EmailService->FindAccountByOwner(this));
 
+		MailLoginData.Account = Account;
+		
 		const TTuple<TEnumAsByte<EApp>, FLoginData> Pass(App_Mail, MailLoginData);
 		LoginsData.Add(Pass);
-
-		EmailService->AddNewAccount(this, MailLoginData.Login, MailLoginData.Password);
 	}
 
 	UMessengerService* MessengerService = Cast<ACWGameMode>(UGameplayStatics::GetGameMode(GetWorld()))->GetInternet()->
@@ -102,17 +106,45 @@ void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 	{
 		FLoginData MessengerLoginData;
 		MessengerLoginData.Login = Login;
-		MessengerLoginData.Password = "12345";
+		MessengerLoginData.Password = GetRepeatedPassword(App_Computer);
 		MessengerLoginData.bRememberLogin = true;
-
-		const TTuple<TEnumAsByte<EApp>, FLoginData> Pass(App_Messenger, MessengerLoginData);
-		LoginsData.Add(Pass);
 
 		MessengerService->AddNewAccount(this, MessengerLoginData.Login, MessengerLoginData.Password);
 
 		UMessengerAccount* Account = Cast<UMessengerAccount>(MessengerService->FindAccountByOwner(this));
 
 		Account->SetMail(GetLoginData(App_Mail).Login);
+
+		MessengerLoginData.Account = Account;
+
+		const TTuple<TEnumAsByte<EApp>, FLoginData> Pass(App_Messenger, MessengerLoginData);
+		LoginsData.Add(Pass);
+	}
+}
+
+void UBasePerson::SetPersonPassword(const TEnumAsByte<EApp> App, const TEnumAsByte<EPasswordDifficulty> PassDifficulty)
+{
+	FLoginData& LoginData = *LoginsData.Find(App);
+	const FName NewPassword = GenerateRandomPassword(PassDifficulty);
+	
+	LoginData.Password = NewPassword;
+
+	if(LoginData.Account)
+	{
+		LoginData.Account->SetPassword(NewPassword);	
+	}
+}
+
+void UBasePerson::SetRepeatedPassword(const TEnumAsByte<EApp> App, const TEnumAsByte<EApp> PassToRepeat)
+{
+	FLoginData& LoginData = *LoginsData.Find(App);
+	const FName NewPassword = GetRepeatedPassword(PassToRepeat);
+	
+	LoginData.Password = NewPassword;
+
+	if(LoginData.Account)
+	{
+		LoginData.Account->SetPassword(NewPassword);	
 	}
 }
 
@@ -129,7 +161,7 @@ void UBasePerson::GenerateSelfInfo(const TEnumAsByte<ESecretQuestion> InfoCatego
 		}
 	case SQ_FavoriteFilm:
 		{
-			TupleInfo.Value = FText::FromString("Avangers");
+			TupleInfo.Value = FText::FromString("Avengers");
 			break;
 		}
 	case SQ_FavoriteSeries:
@@ -192,6 +224,11 @@ FText UBasePerson::GetRandomLastName()
 	return FText::FromString(AllLastNames[UKismetMathLibrary::RandomInteger(AllLastNames.Num())]);
 }
 
+FName UBasePerson::GetRepeatedPassword(const TEnumAsByte<EApp> PassToRepeat)
+{
+	return LoginsData.Find(PassToRepeat)->Password;
+}
+
 FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty> Difficulty)
 {
 	FName Password = "";
@@ -209,17 +246,36 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 		}
 	case PD_Hard:
 		{
+			Password = GenerateHardPassword();
 			break;
 		}
-	case PD_Repeated:
-		{
-			Password = LoginsData.Find(App_Computer)->Password;
-			break;
-		}
+	// case PD_Repeated:
+	// 	{
+	// 		
+	// 		break;
+	// 	}
 	default:
 		{
 			break;
 		}
 	}
 	return Password;
+}
+
+FName UBasePerson::GenerateHardPassword()
+{
+	const TArray<char> Chars = {
+		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+		'S', 'T', 'U', 'V',
+		'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
+	};
+
+	FString Password;
+	const uint8 PassLen = UKismetMathLibrary::RandomIntegerInRange(5, 8);
+	for (uint8 i = 0; i < PassLen; i++)
+	{
+		Password += Chars[UKismetMathLibrary::RandomInteger(Chars.Num())];
+	}
+	return FName(*Password);
 }
