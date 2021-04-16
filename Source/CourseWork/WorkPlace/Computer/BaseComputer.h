@@ -23,14 +23,22 @@ public:
 	UFUNCTION(BlueprintCallable)
 	UBaseFileCatalogue* GetFileSystem() const { return RootFileCatalogue; }
 
+	UFUNCTION(BlueprintCallable)
+	void SetFileSystemPattern(TSubclassOf<UFileSystemPattern> NewPattern);
+
 protected:
 	virtual void BeginPlay() override;
+
+	
+	
 
 
 private:
 	UFUNCTION(BlueprintCallable)
 	void SetOwnerPerson(UBasePerson* NewOwnerPerson);
-
+	
+	void GenerateFileSystem();
+	
 	UPROPERTY()
 	USceneComponent* SceneComponent;
 

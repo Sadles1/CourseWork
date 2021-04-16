@@ -3,8 +3,9 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
 #include "PersonInfo.h"
-#include "UObject/Object.h"
+
 #include "Person.generated.h"
 
 class UBaseServiceAccount;
@@ -56,7 +57,6 @@ enum EPosition
 UENUM(BlueprintType)
 enum EPasswordDifficulty
 {
-	//PD_Repeated UMETA(DisplayName = "Repeated"),
 	PD_Easy UMETA(DisplayName = "Easy"),
 	PD_Medium UMETA(DisplayName = "Medium"),
 	PD_Hard UMETA(DisplayName = "Hard"),
@@ -127,7 +127,6 @@ private:
 
 	UFUNCTION(BlueprintCallable)
 	FName GenerateRandomPassword(TEnumAsByte<EPasswordDifficulty> Difficulty);
-	FPasswords EasyPasswords;
 
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* EasyPasswordsDataTable = nullptr;

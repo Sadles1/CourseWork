@@ -27,7 +27,11 @@ public:
 
 	FName GetMail() const {return Mail;}
 
+	UFUNCTION(BlueprintCallable)
 	void SetSecretQuestionCategory(const TEnumAsByte<ESecretQuestion> SecretQuestion);
+
+	UFUNCTION(BlueprintCallable)
+	void SetAvailableRecoveryByMail(const bool Available) {bCanRecoveryByMail = Available;}
 
 protected:
 	UPROPERTY(VisibleInstanceOnly, Instanced, Category = "Messages")
@@ -38,4 +42,11 @@ protected:
 	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly, Category = "Login")
 	TEnumAsByte<ESecretQuestion> SecretQuestionCategory;
+
+	UPROPERTY(BlueprintReadOnly)
+	bool bCanRecoveryBySecret = false;
+	UPROPERTY(BlueprintReadOnly)
+	bool bCanRecoveryByMail = true;
+
+	
 };

@@ -25,7 +25,7 @@ const TArray<FString> UBasePerson::AllMiddleNames = {
 const TArray<FString> UBasePerson::AllLastNames = {
 	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov", "Novikov", "Fedorov",
 	"Morozov", "Volkow", "Alekseyev", "Lebedev", "Semenov", "Yegorov", "Pavlov", "Kozlov", "Stepanov", "Nikolaev",
-	"Orlov", "Andreev",
+	"Orlov", "Andreev"
 };
 
 const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirth = {
@@ -49,9 +49,6 @@ void UBasePerson::SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginData
 
 void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 {
-	//EasyPasswords =;
-	EasyPasswords = *EasyPasswordsDataTable->FindRow<FPasswords>("EasyPasswords", "");
-
 	Position = Post;
 
 	if (Position == P_Director)
@@ -164,24 +161,9 @@ void UBasePerson::GenerateSelfInfo(const TEnumAsByte<ESecretQuestion> InfoCatego
 			TupleInfo.Value = FText::FromString("Avengers");
 			break;
 		}
-	case SQ_FavoriteSeries:
-		{
-			TupleInfo.Value = FText::FromString("Game of thrones");
-			break;
-		}
-	case SQ_FavoriteMusic:
-		{
-			TupleInfo.Value = FText::FromString("Coi");
-			break;
-		}
 	case SQ_ChildhoodFriend:
 		{
 			TupleInfo.Value = GetRandomName();
-			break;
-		}
-	case SQ_SecondSurname:
-		{
-			TupleInfo.Value = GetRandomLastName();
 			break;
 		}
 	case SQ_BirthPlace:
@@ -208,25 +190,17 @@ FDateTime UBasePerson::GetRandomBirthDate(const TEnumAsByte<EPosition> Post)
 	const FDateTime BirthDate(Year, Month, Day);
 	return BirthDate;
 }
-
 FText UBasePerson::GetRandomName()
 {
 	return FText::FromString(AllNames[UKismetMathLibrary::RandomInteger(AllNames.Num())]);
 }
-
 FText UBasePerson::GetRandomMiddleName()
 {
 	return FText::FromString(AllMiddleNames[UKismetMathLibrary::RandomInteger(AllMiddleNames.Num())]);
 }
-
 FText UBasePerson::GetRandomLastName()
 {
 	return FText::FromString(AllLastNames[UKismetMathLibrary::RandomInteger(AllLastNames.Num())]);
-}
-
-FName UBasePerson::GetRepeatedPassword(const TEnumAsByte<EApp> PassToRepeat)
-{
-	return LoginsData.Find(PassToRepeat)->Password;
 }
 
 FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty> Difficulty)
@@ -236,6 +210,7 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 	{
 	case PD_Easy:
 		{
+			FPasswords EasyPasswords = *EasyPasswordsDataTable->FindRow<FPasswords>("EasyPasswords", "");
 			Password = EasyPasswords.PasswordVariants[UKismetMathLibrary::RandomInteger(
 				EasyPasswords.PasswordVariants.Num())];
 			break;
@@ -249,11 +224,6 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 			Password = GenerateHardPassword();
 			break;
 		}
-	// case PD_Repeated:
-	// 	{
-	// 		
-	// 		break;
-	// 	}
 	default:
 		{
 			break;
@@ -278,4 +248,9 @@ FName UBasePerson::GenerateHardPassword()
 		Password += Chars[UKismetMathLibrary::RandomInteger(Chars.Num())];
 	}
 	return FName(*Password);
+}
+
+FName UBasePerson::GetRepeatedPassword(const TEnumAsByte<EApp> PassToRepeat)
+{
+	return LoginsData.Find(PassToRepeat)->Password;
 }

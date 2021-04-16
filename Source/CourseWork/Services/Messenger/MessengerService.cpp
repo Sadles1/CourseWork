@@ -12,7 +12,6 @@
 
 const TArray<TEnumAsByte<ESecretQuestion>> UMessengerService::SecretQuestionCategory = {
 	SQ_BirthPlace, SQ_ChildhoodFriend, SQ_FavoriteFilm, SQ_FavoriteFood,
-	SQ_FavoriteMusic, SQ_FavoriteSeries, SQ_SecondSurname
 };
 
 // Sets default values
@@ -33,9 +32,7 @@ void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName& Lo
 		const TEnumAsByte<ESecretQuestion> SecretQuestion = SecretQuestionCategory[UKismetMathLibrary::RandomInteger(
 			SecretQuestionCategory.Num())];
 
-		AccountOwner->GenerateSelfInfo(SecretQuestion);
-		
-		SelfAccount->SetSecretQuestionCategory(SecretQuestion);
+
 		
 		FMessage Msg;
 		Msg.Sender = Support;

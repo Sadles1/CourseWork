@@ -27,13 +27,27 @@ void ABaseComputer::BeginPlay()
 	SetOwnerPerson(NewObject<UBasePerson>(this, PersonClass));
 }
 
+void ABaseComputer::SetFileSystemPattern(TSubclassOf<UFileSystemPattern> NewPattern)
+{
+	if(!NewPattern) return;
+	FileSystemPattern = NewPattern;
+
+	GenerateFileSystem();
+}
+
 void ABaseComputer::SetOwnerPerson(UBasePerson* NewOwnerPerson)
 {
 	OwnerPerson = NewOwnerPerson;
 	OwnerPerson->InitPerson(Position);
-	
+
+	if(!FileSystemPattern) return;
+	GenerateFileSystem();
+}
+
+void ABaseComputer::GenerateFileSystem()
+{
 	if(!FileSystemPattern) return;
 	
- 	UFileSystemPattern* NewFileSystem = NewObject<UFileSystemPattern>(this, FileSystemPattern);
+	UFileSystemPattern* NewFileSystem = NewObject<UFileSystemPattern>(this, FileSystemPattern);
 	RootFileCatalogue = NewFileSystem->GenerateFileSystem();
 }
