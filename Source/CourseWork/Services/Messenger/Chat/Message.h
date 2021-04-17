@@ -5,6 +5,7 @@
 #include "CoreMinimal.h"
 #include "Message.generated.h"
 
+class UBaseDialogScript;
 class UMessengerAccount;
 
 USTRUCT(BlueprintType)
@@ -34,4 +35,8 @@ public:
 	float TimeToWrite = 0.1f;
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	bool bCanWrite = false;
+
+	UPROPERTY(BlueprintReadWrite)
+	UBaseDialogScript* DialogScript = nullptr;
 };
+
