@@ -14,16 +14,15 @@ void UEmailService::SendMail(FMail Mail)
 {
 	if (Mail.Sender == Mail.Receiver) return;
 
+	UEmailAccount* Receiver = Cast<UEmailAccount>(FindAccount(Mail.Receiver));
+	
+	if (Receiver)
+		Receiver->ReceiveMail(Mail);
+
 	UEmailAccount* Sender = Cast<UEmailAccount>(FindAccount(Mail.Sender));
 	Mail.Category = MC_Sent;
 	if (Sender)
 		Sender->ReceiveMail(Mail);
-
-	UEmailAccount* Receiver = Cast<UEmailAccount>(FindAccount(Mail.Receiver));
-	
-	Mail.Category = MC_Received;
-	if (Receiver)
-		Receiver->ReceiveMail(Mail);
 }
 
 void UEmailService::AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password)

@@ -28,7 +28,7 @@ public:
 	FName Receiver;
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
-	TEnumAsByte<EMailCategory> Category = MC_Sent;
+	TEnumAsByte<EMailCategory> Category = MC_Received;
 	
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	FText Topic;

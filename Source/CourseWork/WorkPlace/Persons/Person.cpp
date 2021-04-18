@@ -17,15 +17,15 @@
 
 const TArray<FString> UBasePerson::AllNames = {
 	"Vitaliy", "Alexey", "Pavel", "Dmitry", "John", "James", "Evgeniy", "Sergei", "Ivan", "Nikolay", "Michael",
-	"Pupa", "Lupa", "Biba", "Boba"
+	"Pupa", "Lupa", "Biba", "Boba", "Ilon", "Artem", "Andrey", "Danil", "Danila", 
 };
 const TArray<FString> UBasePerson::AllMiddleNames = {
-	"Vitalievich", "Alexeyevich", "Dmitrievich", "Nikolayevich", "Petrovich"
+	"Vitalievich", "Alexeyevich", "Dmitrievich", "Nikolayevich", "Petrovich", "Ivanovich"
 };
 const TArray<FString> UBasePerson::AllLastNames = {
 	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov", "Novikov", "Fedorov",
 	"Morozov", "Volkow", "Alekseyev", "Lebedev", "Semenov", "Yegorov", "Pavlov", "Kozlov", "Stepanov", "Nikolaev",
-	"Orlov", "Andreev"
+	"Orlov", "Andreev", "Mask",
 };
 
 const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirth = {
@@ -50,7 +50,6 @@ void UBasePerson::SetLoginData(FLoginData LoginData, TEnumAsByte<EApp> LoginData
 void UBasePerson::InitPerson(const TEnumAsByte<EPosition> Post)
 {
 	Position = Post;
-
 	if (Position == P_Director)
 	{
 		FirstName = FText::FromString("Michael");
