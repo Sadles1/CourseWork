@@ -18,7 +18,7 @@ UBaseServiceAccount* UBaseService::LoginToService(const FName& Login, const FNam
 {
 	UBaseServiceAccount* FoundAccount = FindAccount(Login);
 	if (FoundAccount)
-		if (FoundAccount->GetPassword() == Password)
+		if (FoundAccount->LoginToAccount(Password))
 			return FoundAccount;
 
 	return nullptr;
