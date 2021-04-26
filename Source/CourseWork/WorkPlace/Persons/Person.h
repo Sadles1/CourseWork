@@ -120,8 +120,7 @@ private:
 	static FText GetRandomMiddleName();
 	static const TArray<FString> AllMiddleNames; 
 	
-	static FText GetRandomLastName();
-	static const TArray<FString> AllLastNames;
+	FText GetRandomLastName() const;
 
 	FName GetRepeatedPassword(TEnumAsByte<EApp> PassToRepeat); 
 
@@ -131,6 +130,12 @@ private:
 	UPROPERTY(EditDefaultsOnly)
 	UDataTable* EasyPasswordsDataTable = nullptr;
 
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* FilmsDataTable = nullptr;
+
+	UPROPERTY(EditDefaultsOnly)
+	UDataTable* SurnamesDataTable = nullptr;
+	
 	static FName GenerateHardPassword();
 
 	UFUNCTION(BlueprintCallable)

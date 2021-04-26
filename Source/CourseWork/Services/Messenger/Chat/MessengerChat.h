@@ -4,6 +4,8 @@
 
 #include "CoreMinimal.h"
 #include "Message.h"
+#include "CourseWork/WorkPlace/Persons/Person.h"
+
 #include "MessengerChat.generated.h"
 
 DECLARE_DYNAMIC_MULTICAST_DELEGATE(FAddMessageDelegate);
@@ -16,6 +18,12 @@ class COURSEWORK_API UMessengerChat : public UObject
 public:
 	UPROPERTY(BlueprintAssignable)
 	FAddMessageDelegate AddMessageDelegate;
+
+	UFUNCTION(BlueprintCallable)
+	void AddParticipant(UMessengerAccount* Participant)
+	{
+		Participants.Add(Participant);
+	}
 	
 	UFUNCTION(BlueprintCallable)
 	void AddMessage(const FMessage Msg)
@@ -36,4 +44,7 @@ protected:
 
 	UPROPERTY(VisibleInstanceOnly, BlueprintReadWrite)
 	TArray<FDialogMessage> DialogMessages = {};
+
+	UPROPERTY(VisibleInstanceOnly, BlueprintReadOnly)
+	TArray<UMessengerAccount*> Participants = {};
 };

@@ -17,16 +17,12 @@
 
 const TArray<FString> UBasePerson::AllNames = {
 	"Vitaliy", "Alexey", "Pavel", "Dmitry", "John", "James", "Evgeniy", "Sergei", "Ivan", "Nikolay", "Michael",
-	"Pupa", "Lupa", "Biba", "Boba", "Ilon", "Artem", "Andrey", "Danil", "Danila", 
+	"Pupa", "Lupa", "Biba", "Boba", "Ilon", "Artem", "Andrey", "Danil", "Danila", "Boris", "Denis", "Vladimir", "Matvey"
 };
 const TArray<FString> UBasePerson::AllMiddleNames = {
 	"Vitalievich", "Alexeyevich", "Dmitrievich", "Nikolayevich", "Petrovich", "Ivanovich"
 };
-const TArray<FString> UBasePerson::AllLastNames = {
-	"Zubenko", "Ivanov", "Petrov", "Smirnov", "Kuznetsov", "Popov", "Vasiliev", "Sokolov", "Novikov", "Fedorov",
-	"Morozov", "Volkow", "Alekseyev", "Lebedev", "Semenov", "Yegorov", "Pavlov", "Kozlov", "Stepanov", "Nikolaev",
-	"Orlov", "Andreev", "Mask",
-};
+
 
 const TMap<TEnumAsByte<EPosition>, TTuple<int16, int16>> UBasePerson::YearOfBirth = {
 	{P_Worker, TTuple<int16, int16>(1975, 2003)},
@@ -157,7 +153,9 @@ void UBasePerson::GenerateSelfInfo(const TEnumAsByte<ESecretQuestion> InfoCatego
 		}
 	case SQ_FavoriteFilm:
 		{
-			TupleInfo.Value = FText::FromString("Avengers");
+			FFilms Films = *FilmsDataTable->FindRow<FFilms>("Films", "");
+			TupleInfo.Value = Films.Films[UKismetMathLibrary::RandomInteger(
+                Films.Films.Num())];
 			break;
 		}
 	case SQ_ChildhoodFriend:
@@ -197,9 +195,13 @@ FText UBasePerson::GetRandomMiddleName()
 {
 	return FText::FromString(AllMiddleNames[UKismetMathLibrary::RandomInteger(AllMiddleNames.Num())]);
 }
-FText UBasePerson::GetRandomLastName()
+FText UBasePerson::GetRandomLastName() const
 {
-	return FText::FromString(AllLastNames[UKismetMathLibrary::RandomInteger(AllLastNames.Num())]);
+	FSurnames Surnames = *SurnamesDataTable->FindRow<FSurnames>("Surnames", "");
+	const FString Surname = Surnames.Surnames[UKismetMathLibrary::RandomInteger(
+        Surnames.Surnames.Num())];
+	
+	return FText::FromString(Surname);
 }
 
 FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty> Difficulty)
@@ -234,14 +236,14 @@ FName UBasePerson::GenerateRandomPassword(const TEnumAsByte<EPasswordDifficulty>
 FName UBasePerson::GenerateHardPassword()
 {
 	const TArray<char> Chars = {
-		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'i', 'j', 'k', 'l', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
-		'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'I', 'J', 'K', 'L', 'M', 'N', 'O', 'P', 'Q', 'R',
+		'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h', 'j', 'k', 'm', 'n', 'o', 'p', 'q', 'r', 's', 't', 'u', 'v',
+		'w', 'x', 'y', 'z', 'A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'J', 'K', 'M', 'N', 'O', 'P', 'Q', 'R',
 		'S', 'T', 'U', 'V',
 		'W', 'X', 'Y', 'Z', '1', '2', '3', '4', '5', '6', '7', '8', '9', '0'
 	};
 
 	FString Password;
-	const uint8 PassLen = UKismetMathLibrary::RandomIntegerInRange(5, 8);
+	const uint8 PassLen = UKismetMathLibrary::RandomIntegerInRange(4, 6);
 	for (uint8 i = 0; i < PassLen; i++)
 	{
 		Password += Chars[UKismetMathLibrary::RandomInteger(Chars.Num())];

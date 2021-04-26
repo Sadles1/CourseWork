@@ -27,3 +27,23 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 	TArray<FName> PasswordVariants;
 };
+
+USTRUCT(BlueprintType)
+struct FSurnames : public FTableRowBase
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FString> Surnames;
+};
+
+USTRUCT(BlueprintType)
+struct FFilms : public FTableRowBase
+{
+	GENERATED_BODY()
+
+public:
+	UPROPERTY(EditAnywhere, BlueprintReadWrite)
+	TArray<FText> Films;
+};

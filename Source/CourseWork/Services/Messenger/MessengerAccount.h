@@ -3,8 +3,12 @@
 #pragma once
 
 #include "CoreMinimal.h"
+
+#include "Chat/MessengerChat.h"
 #include "CourseWork/Services/Base/BaseServiceAccount.h"
 #include "CourseWork/WorkPlace/Persons/PersonInfo.h"
+#include "Kismet/KismetArrayLibrary.h"
+
 
 #include "MessengerAccount.generated.h"
 
@@ -20,7 +24,12 @@ public:
 	UFUNCTION(BlueprintCallable)
 	TArray<UMessengerChat*> GetChats() const {return Chats;}
 
-	void AddToChat(UMessengerChat* Chat) {Chats.Add(Chat);}
+	void AddToChat(UMessengerChat* Chat)
+	{
+		Chat->AddParticipant(this);
+		Chats.Add(Chat);
+	}
+	
 	void SendMsg(UMessengerChat* ToChat, FMessage Msg);
 
 	void SetMail(const FName NewMail) {Mail = NewMail;}

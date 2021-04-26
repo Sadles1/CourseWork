@@ -20,6 +20,7 @@ UMessengerService::UMessengerService()
 	AccountClass = UMessengerAccount::StaticClass();
 
 	Support = CreateDefaultSubobject<UMessengerAccount>(TEXT("Support"));
+	Support->SetLogin("Support");
 }
 
 void UMessengerService::AddNewAccount(UBasePerson* AccountOwner, const FName& Login, const FName& Password)
@@ -57,6 +58,7 @@ void UMessengerService::CreateNewChatByPattern(const TSubclassOf<UChatPattern> P
 	if(ChatPattern)
 	{
 		UMessengerChat* NewChat = ChatPattern->CreateChat(User1, User2);
+		
 		User1->AddToChat(NewChat);
 		User2->AddToChat(NewChat);
 	}
